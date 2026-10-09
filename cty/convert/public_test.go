@@ -201,6 +201,24 @@ func TestConvert(t *testing.T) {
 			Want: cty.UnknownVal(cty.List(cty.String)),
 		},
 		{
+			// Unknown length, and the element type changes. The unknown
+			// list must still be the target type.
+			Value: cty.SetVal([]cty.Value{
+				cty.NumberIntVal(5),
+				cty.UnknownVal(cty.Number),
+			}),
+			Type: cty.List(cty.String),
+			Want: cty.UnknownVal(cty.List(cty.String)),
+		},
+		{
+			Value: cty.SetVal([]cty.Value{
+				cty.NumberIntVal(5),
+				cty.UnknownVal(cty.Number),
+			}),
+			Type: cty.List(cty.DynamicPseudoType),
+			Want: cty.UnknownVal(cty.List(cty.Number)),
+		},
+		{
 			Value: cty.SetVal([]cty.Value{
 				cty.UnknownVal(cty.String),
 			}),

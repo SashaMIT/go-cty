@@ -17,8 +17,12 @@ func conversionCollectionToList(ety cty.Type, conv conversion) conversion {
 			// If the input collection has an unknown length (which is true
 			// for a set containing unknown values) then our result must be
 			// an unknown list, because we can't predict how many elements
-			// the resulting list should have.
-			return cty.UnknownVal(cty.List(val.Type().ElementType())), nil
+			// the resulting list should have. The list's element type is
+			// still the conversion target, matching the empty-list branch.
+			if ety == cty.DynamicPseudoType {
+				return cty.UnknownVal(cty.List(val.Type().ElementType())), nil
+			}
+			return cty.UnknownVal(cty.List(ety.WithoutOptionalAttributesDeep())), nil
 		}
 
 		elems := make([]cty.Value, 0, val.LengthInt())

@@ -1,6 +1,7 @@
 # 1.19.1 (Unreleased)
 
 - stdlib: `SignumFunc` now works with any number cty can represent, whereas before it was unnecessarily limited only to numbers that could be converted to Go's `int` type.
+- `convert`: an unknown-length collection converted to a list is now an unknown list of the target element type. It previously kept the source element type.
 
 # 1.19.0 (July 6, 2026)
 
